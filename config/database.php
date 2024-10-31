@@ -30,6 +30,17 @@ return [
     */
 
     'connections' => [
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_DB_HOST', 'mongo-db'),
+            'port' => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE', 'open_food'),
+            'username' => env('MONGO_DB_USERNAME', 'db-user'),
+            'password' => env('MONGO_DB_PASSWORD', 'db-pass'),
+            'options'  => [
+                'database' => env('MONGO_DB_AUTHENTICATION_DATABASE', 'admin'), // Specifies the authentication database
+            ],
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
@@ -147,7 +158,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
