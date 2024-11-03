@@ -12,7 +12,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'code' => $this->faker->unique()->numberBetween(10000000, 99999999),
+            'code' => (string) $this->faker->unique()->numberBetween(10000000, 99999999),
             'status' => 'published',
             'url' => $this->faker->url,
             'creator' => $this->faker->userName,
@@ -27,8 +27,8 @@ class ProductFactory extends Factory
             'ingredients_text' => $this->faker->sentence(12),
             'traces' => implode(', ', $this->faker->words(3)),
             'serving_size' => $this->faker->numberBetween(10, 100) . ' g',
-            'serving_quantity' => $this->faker->randomFloat(1, 10, 100),
-            'nutriscore_score' => $this->faker->numberBetween(1, 30),
+            'serving_quantity' => (string) $this->faker->randomFloat(1, 10, 100),
+            'nutriscore_score' => (string) $this->faker->numberBetween(1, 30),
             'nutriscore_grade' => $this->faker->randomElement(['a', 'b', 'c', 'd', 'e']),
             'main_category' => 'en:' . $this->faker->word,
             'image_url' => $this->faker->imageUrl(640, 480, 'food'),
