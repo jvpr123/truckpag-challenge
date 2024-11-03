@@ -73,3 +73,29 @@ describe('ProductController -> update()', function () {
         $response->assertStatus(Response::HTTP_NOT_FOUND)->assertJson(['error' => 'Product not found.']);
     });
 });
+
+describe('ProductController -> delete()', function () {
+    beforeEach(function () {
+        $this->product = ProductModel::factory()->create();
+        $this->route = route('products.delete', ['barcode' => $this->product->code]);
+    });
+
+    it('should respond with 200 confirming Product deletion on success', function () {
+        $response = $this->deleteJson($this->route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Product deleted successfully.');
+
+        $this->assertDatabaseHas('products', [
+            'id' => $this->product->id,
+            'status' => ProductStatus::TRASH->value,
+        ]);
+    });
+
+    it('should respond with 404 with error message if Product not found', function () {
+        $route = route('products.delete', ['barcode' => '00000000']);
+
+        $response = $this->deleteJson($route);
+        $response->assertStatus(Response::HTTP_NOT_FOUND)->assertJson(['error' => 'Product not found.']);
+    });
+});
