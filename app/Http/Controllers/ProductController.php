@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\UseCases\GetProductByBarcodeUseCase;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,11 +12,13 @@ class ProductController extends Controller
         return response()->json(['messade' => 'List paginated products route']);
     }
 
-    public function show(string $barcode)
+    public function show(GetProductByBarcodeUseCase $useCase, string $barcode)
     {
+        $product = $useCase->execute($barcode);
+
         return response()->json([
-            'message' => 'Get product by barcode route',
-            'barcode' => $barcode,
+            'message' => 'Product found successfully.',
+            'product' => $product,
         ]);
     }
 

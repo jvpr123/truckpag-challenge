@@ -250,4 +250,34 @@ class Product
     {
         $this->updatedAt = $updatedAt;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'code' => $this->code,
+            'status' => $this->status->value,
+            'url' => $this->url,
+            'creator' => $this->creator,
+            'productName' => $this->productName,
+            'quantity' => $this->quantity,
+            'brands' => $this->brands,
+            'categories' => $this->categories,
+            'labels' => $this->labels,
+            'cities' => $this->cities,
+            'purchasePlaces' => $this->purchasePlaces,
+            'stores' => $this->stores,
+            'ingredientsText' => $this->ingredientsText,
+            'traces' => $this->traces,
+            'servingSize' => $this->servingSize,
+            'serving_quantity' => $this->serving_quantity,
+            'nutriscoreScore' => $this->nutriscoreScore,
+            'nutriscoreGrade' => $this->nutriscoreGrade,
+            'mainCategory' => $this->mainCategory,
+            'imageUrl' => $this->imageUrl,
+            'importedAt' => $this->importedAt->format('dd/MM/yyyy H:i:s'),
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+        ];
+    }
 }
