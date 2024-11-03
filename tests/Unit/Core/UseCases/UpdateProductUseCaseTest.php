@@ -24,7 +24,6 @@ describe('UpdateProductUseCase -> execute()', function () {
         $this->productEntity = (new ProductTransformer)->modelToEntity($this->productModel);
 
         $this->inputDTO = new UpdateProductInputDTO(
-            id: $this->productModel->id,
             code: $this->productModel->code,
             status: 'draft',
             creator: 'Product Creator',
