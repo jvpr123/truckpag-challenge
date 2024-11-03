@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\UseCases\DTO\UpdateProductInputDTO;
 use App\Core\UseCases\GetProductByBarcodeUseCase;
+use App\Core\UseCases\UpdateProductUseCase;
+use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -22,11 +25,39 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $barcode)
-    {
+    public function update(
+        UpdateProductUseCase $useCase,
+        UpdateProductRequest $request,
+        string $barcode,
+    ) {
+        $dto = new UpdateProductInputDTO(
+            code: $request->validated('code'),
+            status: $request->validated('status'),
+            url: $request->validated('url'),
+            creator: $request->validated('creator'),
+            productName: $request->validated('productName'),
+            quantity: $request->validated('quantity'),
+            brands: $request->validated('brands'),
+            categories: $request->validated('categories'),
+            labels: $request->validated('labels'),
+            cities: $request->validated('cities'),
+            purchasePlaces: $request->validated('purchasePlaces'),
+            stores: $request->validated('stores'),
+            ingredientsText: $request->validated('ingredientsText'),
+            traces: $request->validated('traces'),
+            servingSize: $request->validated('servingSize'),
+            servingQuantity: $request->validated('servingQuantity'),
+            nutriscoreScore: $request->validated('nutriscoreScore'),
+            nutriscoreGrade: $request->validated('nutriscoreGrade'),
+            mainCategory: $request->validated('mainCategory'),
+            imageUrl: $request->validated('imageUrl')
+        );
+
+        $product = $useCase->execute($barcode, $dto);
+
         return response()->json([
-            'message' => 'Update product by barcode route',
-            'barcode' => $barcode,
+            'message' => 'Product updated successfully.',
+            'product' => $product->toArray(),
         ]);
     }
 

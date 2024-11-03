@@ -9,6 +9,6 @@ Route::get('/', [ApiStateController::class, 'index']);
 Route::prefix('/products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{barcode}', [ProductController::class, 'show'])->name('products.find-by-barcode');
-    Route::put('/{barcode}', [ProductController::class, 'update']);
+    Route::put('/{barcode}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/{barcode}', [ProductController::class, 'delete']);
 });
