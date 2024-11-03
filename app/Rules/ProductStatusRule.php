@@ -12,8 +12,7 @@ class ProductStatusRule implements ValidationRule
     {
         $allowedProductStatus = [
             ProductStatus::PUBLISHED->value,
-            ProductStatus::DRAFT,
-            ProductStatus::TRASH,
+            ProductStatus::DRAFT->value,
         ];
 
         if (!in_array($value, $allowedProductStatus)) {

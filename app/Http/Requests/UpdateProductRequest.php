@@ -4,13 +4,16 @@ namespace App\Http\Requests;
 
 use App\Rules\NutriscoreGradeRule;
 use App\Rules\ProductStatusRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class UpdateProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     public function rules(): array
@@ -36,5 +39,15 @@ class UpdateProductRequest extends FormRequest
             'mainCategory' => ['nullable', 'string'],
             'imageUrl' => ['nullable', 'url:http,https'],
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'result' => false,
+                'errors' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST)
+        );
     }
 }
