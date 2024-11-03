@@ -7,6 +7,7 @@ use App\Core\Domain\Enums\ProductStatus;
 use App\Infrainstructure\Transformers\ProductTransformer;
 use App\Models\Product as ProductModel;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 describe('ProductTransformer -> modelToEntity()', function () {
     it('should transform a Product Eloquent model into a Product entity correctly', function () {
@@ -99,5 +100,17 @@ describe('ProductTransformer -> entityToModel()', function () {
         $this->assertEquals($productEntity->getImportedAt(), $productModel->imported_t);
         $this->assertEquals(time(), $productModel->created_t);
         $this->assertEquals(time(), $productModel->last_modified_t);
+    });
+});
+
+describe('ProductTransformer -> transformPagination()', function () {
+    it('should transforms paginated Product model items to Product entities', function () {
+        $productModels = ProductModel::factory()->count(2)->create();
+        $pagination = new LengthAwarePaginator($productModels, 2, 2);
+        $transformer = new ProductTransformer();
+
+        $transformedPagination = $transformer->transformPagination($pagination);
+        expect($transformedPagination)->toBeInstanceOf(LengthAwarePaginator::class);
+        expect($transformedPagination->items())->each->toBeArray();
     });
 });
