@@ -18,4 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (EntityNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         });
+
+        $exceptions->render(function (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        });
     })->create();
