@@ -20,6 +20,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function updateProduct(Product $product): void
     {
-        ProductModel::where('id', $product->getId())->update($product->toArray());
+        $updatedProduct = $this->productTransformer->entityToModel($product);
+        ProductModel::where('id', $product->getId())->update($updatedProduct->toArray());
     }
 }
