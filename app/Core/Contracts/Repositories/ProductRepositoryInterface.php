@@ -3,10 +3,11 @@
 namespace App\Core\Contracts\Repositories;
 
 use App\Core\Domain\Entities\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface
 {
-    // function listPaginatedProducts(): array;
+    public function listPaginatedProducts(int $perpage, string $search, string $status): LengthAwarePaginator;
 
     public function getProductByBarcode(string $barcode): ?Product;
 

@@ -6,6 +6,7 @@ use App\Core\Domain\Entities\Product;
 use App\Core\Domain\Enums\ProductStatus;
 use App\Models\Product as ProductModel;
 use DateTime;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProductTransformer
 {
@@ -38,6 +39,7 @@ class ProductTransformer
             updatedAt: $model->last_modified_t
         );
     }
+
     public function entityToModel(Product $entity): ProductModel
     {
         $model = new ProductModel();
@@ -68,5 +70,14 @@ class ProductTransformer
         $model->last_modified_t = $entity->getUpdatedAt();
 
         return $model;
+    }
+
+    public function transformPagination(LengthAwarePaginator $pagination): LengthAwarePaginator
+    {
+        $transformedCollection = $pagination->getCollection()->transform(function (ProductModel $productModel) {
+            return $this->modelToEntity($productModel)->toArray();
+        });
+
+        return $pagination->setCollection($transformedCollection);
     }
 }
