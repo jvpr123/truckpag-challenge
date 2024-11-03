@@ -4,9 +4,9 @@ namespace Tests\Unit\Core\UseCases;
 
 use App\Core\Contracts\Repositories\ProductRepositoryInterface;
 use App\Core\Domain\Entities\Product;
+use App\Core\Exceptions\ProductNotFoundException;
 use App\Core\UseCases\GetProductByBarcodeUseCase;
 use Mockery;
-use ProductNotFoundException;
 
 describe('GetProductByBarcodeUseCase -> execute()', function () {
     beforeEach(function () {
