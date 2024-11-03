@@ -9,7 +9,7 @@ use DateTime;
 
 class ProductTransformer
 {
-    public function transform(ProductModel $model): Product
+    public function modelToEntity(ProductModel $model): Product
     {
         return new Product(
             id: $model->id,
@@ -37,5 +37,36 @@ class ProductTransformer
             createdAt: $model->created_t,
             updatedAt: $model->last_modified_t
         );
+    }
+    public function entityToModel(Product $entity): ProductModel
+    {
+        $model = new ProductModel();
+
+        $model->id = $entity->getId();
+        $model->code = $entity->getCode();
+        $model->status = $entity->getStatus()->value;
+        $model->url = $entity->getUrl();
+        $model->creator = $entity->getCreator();
+        $model->product_name = $entity->getProductName();
+        $model->quantity = $entity->getQuantity();
+        $model->brands = $entity->getBrands();
+        $model->categories = $entity->getCategories();
+        $model->labels = $entity->getLabels();
+        $model->cities = $entity->getCities();
+        $model->purchase_places = $entity->getPurchasePlaces();
+        $model->stores = $entity->getStores();
+        $model->ingredients_text = $entity->getIngredientsText();
+        $model->traces = $entity->getTraces();
+        $model->serving_size = $entity->getServingSize();
+        $model->serving_quantity = $entity->getServingQuantity();
+        $model->nutriscore_score = $entity->getNutriscoreScore();
+        $model->nutriscore_grade = $entity->getNutriscoreGrade();
+        $model->main_category = $entity->getMainCategory();
+        $model->image_url = $entity->getImageUrl();
+        $model->imported_at = $entity->getImportedAt();
+        $model->created_at = $entity->getCreatedAt();
+        $model->updated_at = $entity->getUpdatedAt();
+
+        return $model;
     }
 }

@@ -15,6 +15,11 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = ProductModel::firstWhere('code', $barcode);
 
-        return $product ? $this->productTransformer->transform($product) : null;
+        return $product ? $this->productTransformer->modelToEntity($product) : null;
+    }
+
+    public function updateProduct(Product $product): void
+    {
+        ProductModel::where('id', $product->getId())->update($product->toArray());
     }
 }

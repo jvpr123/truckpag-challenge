@@ -26,3 +26,23 @@ describe('ProductRepository -> getProductByBarcode()', function () {
         expect($output->getId())->toBe($product->id);
     });
 });
+
+describe('ProductRepository -> update()', function () {
+    beforeEach(function () {
+        $this->mockProductTransformer = new ProductTransformer;
+        $this->productRepository = new ProductRepository($this->mockProductTransformer);
+    });
+
+    it('should return NULL if product not found', function () {
+        $output = $this->productRepository->getProductByBarcode('00000');
+        expect($output)->toBeNull();
+    });
+
+    it('should return a Product entity instance successfully', function () {
+        $product = ProductModel::factory()->create();
+
+        $output = $this->productRepository->getProductByBarcode($product->code);
+        expect($output)->toBeInstanceOf(Product::class);
+        expect($output->getId())->toBe($product->id);
+    });
+});
