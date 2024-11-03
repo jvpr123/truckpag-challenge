@@ -1,0 +1,34 @@
+services:
+    laravel-rest-api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel-rest-api
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql-db
+        networks:
+            - open-food-network
+
+    mysql-db:
+        image: mysql:latest
+        container_name: mysql-db
+        ports:
+            - "${DB_PORT}:${DB_PORT}"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+        networks:
+            - open-food-network
+
+networks:
+    open-food-network:
+        driver: bridge
+
