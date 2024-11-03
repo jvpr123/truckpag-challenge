@@ -2,22 +2,15 @@
 
 namespace App\Core\UseCases;
 
-use App\Core\Contracts\Repositories\ProductRepositoryInterface;
 use App\Core\Domain\Entities\Product;
 use App\Core\Domain\Enums\ProductStatus;
-use App\Core\Exceptions\ProductNotFoundException;
 use App\Core\UseCases\DTO\UpdateProductInputDTO;
 
-class UpdateProductUseCase
+class UpdateProductUseCase extends BaseProductUseCase
 {
-    public function __construct(private ProductRepositoryInterface $productRepository) {}
-
     public function execute(string $barcode, UpdateProductInputDTO $dto): Product
     {
-        $product = $this->productRepository->getProductByBarcode($barcode);
-        if (!$product) {
-            throw new ProductNotFoundException();
-        }
+        $product = $this->getProductByBarcode($barcode);
 
         $updatedProduct = $this->getProductToUpdate($product, $dto);
         $this->productRepository->updateProduct($updatedProduct);
