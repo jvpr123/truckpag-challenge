@@ -18,7 +18,7 @@ class ProductController extends Controller
 
         return response()->json([
             'message' => 'Product found successfully.',
-            'product' => $product,
+            'product' => $product->toArray(),
         ]);
     }
 
