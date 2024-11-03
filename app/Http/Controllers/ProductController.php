@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\UseCases\DeleteProductUseCase;
 use App\Core\UseCases\DTO\UpdateProductInputDTO;
 use App\Core\UseCases\GetProductByBarcodeUseCase;
 use App\Core\UseCases\UpdateProductUseCase;
@@ -61,11 +62,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function delete(Request $request, string $barcode)
+    public function delete(DeleteProductUseCase $useCase, string $barcode)
     {
-        return response()->json([
-            'message' => 'Trash product by barcode route',
-            'barcode' => $barcode,
-        ]);
+        $useCase->execute($barcode);
+
+        return response()->json(['message' => 'Product deleted successfully.']);
     }
 }
