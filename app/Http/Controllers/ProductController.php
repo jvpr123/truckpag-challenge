@@ -5,15 +5,25 @@ namespace App\Http\Controllers;
 use App\Core\UseCases\DeleteProductUseCase;
 use App\Core\UseCases\DTO\UpdateProductInputDTO;
 use App\Core\UseCases\GetProductByBarcodeUseCase;
+use App\Core\UseCases\ListPaginatedProductsUseCase;
 use App\Core\UseCases\UpdateProductUseCase;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(ListPaginatedProductsUseCase $useCase, Request $request)
     {
-        return response()->json(['messade' => 'List paginated products route']);
+        $paginatedProducts = $useCase->execute(
+            perpage: $request->query('perpage', 10),
+            search: $request->query('search', null),
+            status: $request->query('status', null),
+        );
+
+        return response()->json([
+            'message' => 'Products found successfully.',
+            'pagination' => $paginatedProducts,
+        ]);
     }
 
     public function show(GetProductByBarcodeUseCase $useCase, string $barcode)

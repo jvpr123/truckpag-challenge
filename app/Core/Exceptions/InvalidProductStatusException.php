@@ -16,6 +16,6 @@ class InvalidProductStatusException extends Exception
     public function __construct()
     {
         $validOptions = implode(', ', self::VALID_PRODUCT_STATUS);
-        parent::__construct("Product status must be a valid option:{ $validOptions}.");
+        parent::__construct("Product status must be a valid option: {$validOptions}.");
     }
 }
