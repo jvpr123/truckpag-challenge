@@ -11,7 +11,6 @@ class ProductTransformer
 {
     public function transform(ProductModel $model): Product
     {
-        info($model);
         return new Product(
             id: $model->id,
             code: $model->code,
