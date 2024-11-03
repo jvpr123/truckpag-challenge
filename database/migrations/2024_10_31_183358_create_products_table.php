@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('main_category')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamp('imported_t')->nullable();
-            $table->timestamp('created_t')->default(now());
-            $table->timestamp('last_modified_t')->default(now());
+            $table->unsignedBigInteger('created_t')->default(now()->unix());
+            $table->unsignedBigInteger('last_modified_t')->default(now()->unix());
         });
     }
 

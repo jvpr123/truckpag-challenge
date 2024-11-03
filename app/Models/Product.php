@@ -9,8 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    const CREATED_AT = 'created_t';
-    const UPDATED_AT = 'last_modified_t';
+    public $timestamps = false;
 
     protected $fillable = [
         "code",
