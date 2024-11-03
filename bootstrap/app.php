@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Exceptions\EntityNotFoundException;
+use App\Core\Exceptions\InvalidProductStatusException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (EntityNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        });
+
+        $exceptions->render(function (InvalidProductStatusException $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         });
 
         $exceptions->render(function (Exception $e) {
