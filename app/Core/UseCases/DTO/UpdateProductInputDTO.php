@@ -5,8 +5,7 @@ namespace App\Core\UseCases\DTO;
 class UpdateProductInputDTO
 {
     public function __construct(
-        public int $id,
-        public string $code,
+        public ?string $code = null,
         public ?string $status = null,
         public ?string $url = null,
         public ?string $creator = null,
