@@ -6,6 +6,102 @@ use App\Core\Domain\Enums\ProductStatus;
 use App\Models\Product as ProductModel;
 use Illuminate\Http\Response;
 
+describe('ProductController -> index()', function () {
+    it('should respond with 200 status-code with paginated Products without filters', function () {
+        $products = ProductModel::factory()->count(15)->create();
+        $route = route('products.list');
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Products found successfully.');
+        expect($response['pagination']['total'])->toBe($products->count());
+        expect($response['pagination']['data'])->toHaveCount(10);
+    });
+
+    it('should respond with 200 status-code with paginated Products using custom perpage param', function () {
+        $products = ProductModel::factory()->count(15)->create();
+        $route = route('products.list', ['perpage' => 15]);
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Products found successfully.');
+        expect($response['pagination']['total'])->toBe($products->count());
+        expect($response['pagination']['data'])->toHaveCount($products->count());
+    });
+
+    it('should respond with 200 status-code with paginated Products filtered by search', function () {
+        ProductModel::factory()
+            ->count(3)
+            ->sequence(
+                ['product_name' => 'Apple Juice'],
+                ['product_name' => 'Orange Juice'],
+                ['product_name' => 'Milk']
+            )
+            ->create();
+        $route = route('products.list', ['search' => 'Juice']);
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Products found successfully.');
+        expect($response['pagination']['total'])->toBe(2);
+        expect($response['pagination']['data'])->toHaveCount(2);
+    });
+
+    it('should respond with 200 status-code with paginated Products filtered by status', function () {
+        ProductModel::factory()
+            ->count(3)
+            ->sequence(
+                ['status' => ProductStatus::PUBLISHED],
+                ['status' => ProductStatus::PUBLISHED],
+                ['status' => ProductStatus::DRAFT],
+            )
+            ->create();
+        $route = route('products.list', ['status' => ProductStatus::PUBLISHED->value]);
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Products found successfully.');
+        expect($response['pagination']['total'])->toBe(2);
+        expect($response['pagination']['data'])->toHaveCount(2);
+    });
+
+    it('should respond with 200 status-code with paginated Products using all filters', function () {
+        ProductModel::factory()
+            ->count(3)
+            ->sequence(
+                ['product_name' => 'Apple Juice', 'status' => ProductStatus::PUBLISHED->value],
+                ['product_name' => 'Apple Juice', 'status' => ProductStatus::DRAFT->value],
+                ['product_name' => 'Orange Juice', 'status' => ProductStatus::TRASH->value]
+            )
+            ->create();
+
+        $route = route('products.list', [
+            'perpage' => 15,
+            'search' => 'Apple',
+            'status' => ProductStatus::PUBLISHED->value,
+        ]);
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_OK);
+
+        expect($response['message'])->toBe('Products found successfully.');
+        expect($response['pagination']['total'])->toBe(1);
+        expect($response['pagination']['data'])->toHaveCount(1);
+    });
+
+    it('should respond with 400 status-code with error message when invalid product status is provided', function () {
+        $route = route('products.list', ['status' => 'INVALID_STATUS']);
+
+        $response = $this->getJson($route);
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        expect($response['error'])->toBe('Product status must be a valid option: published, draft, trash.');
+    });
+});
+
 describe('ProductController -> show()', function () {
     it('should respond with 200 with found Product data on success', function () {
         $product = ProductModel::factory()->create();
