@@ -96,8 +96,8 @@ describe('ProductTransformer -> entityToModel()', function () {
         $this->assertEquals($productEntity->getNutriscoreGrade(), $productModel->nutriscore_grade);
         $this->assertEquals($productEntity->getMainCategory(), $productModel->main_category);
         $this->assertEquals($productEntity->getImageUrl(), $productModel->image_url);
-        $this->assertEquals($productEntity->getImportedAt(), $productModel->imported_at);
-        $this->assertEquals(time(), $productModel->created_at);
-        $this->assertEquals(time(), $productModel->updated_at);
+        $this->assertEquals($productEntity->getImportedAt(), $productModel->imported_t);
+        $this->assertEquals(time(), $productModel->created_t);
+        $this->assertEquals(time(), $productModel->last_modified_t);
     });
 });

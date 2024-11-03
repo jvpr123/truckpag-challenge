@@ -63,9 +63,9 @@ class ProductTransformer
         $model->nutriscore_grade = $entity->getNutriscoreGrade();
         $model->main_category = $entity->getMainCategory();
         $model->image_url = $entity->getImageUrl();
-        $model->imported_at = $entity->getImportedAt();
-        $model->created_at = $entity->getCreatedAt();
-        $model->updated_at = $entity->getUpdatedAt();
+        $model->imported_t = $entity->getImportedAt();
+        $model->created_t = $entity->getCreatedAt();
+        $model->last_modified_t = $entity->getUpdatedAt();
 
         return $model;
     }
