@@ -11,6 +11,4 @@ interface ProductRepositoryInterface
     public function getProductByBarcode(string $barcode): ?Product;
 
     public function updateProduct(Product $product): void;
-
-    // function deleteProduct(int $id): void;
 }
