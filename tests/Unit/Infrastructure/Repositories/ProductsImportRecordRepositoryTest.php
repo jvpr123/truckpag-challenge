@@ -6,6 +6,30 @@ use App\Infrainstructure\Repositories\ProductsImportRecordRepository;
 use App\Models\ProductsImportRecord;
 use Exception;
 
+describe('ProductsImportRecordRepository -> getLatestImportDateTime()', function () {
+    beforeEach(function () {
+        $this->repository = new ProductsImportRecordRepository();
+    });
+
+    it('should return the latest datetime where a file was imported', function () {
+        ProductsImportRecord::factory()
+            ->count(2)
+            ->sequence(
+                ['created_at' => now()->copy()->subDay()],
+                ['created_at' => now()],
+            )
+            ->create();
+
+        $datetime = $this->repository->getLatestImportDateTime();
+        expect($datetime->toString())->toBe(now()->toString());
+    });
+
+    it('should return NULL if no file was imported', function () {
+        $output = $this->repository->getLatestImportDateTime();
+        expect($output)->toBeNull();
+    });
+});
+
 describe('ProductsImportRecordRepository -> isFileAlreadyImported()', function () {
     beforeEach(fn() => $this->repository = new ProductsImportRecordRepository());
 
