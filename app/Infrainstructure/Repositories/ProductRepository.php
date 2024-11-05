@@ -12,6 +12,11 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function __construct(private ProductTransformer $productTransformer) {}
 
+    public function createMany(array $products): void
+    {
+        ProductModel::insert($products);
+    }
+
     public function listPaginatedProducts(int $perpage, ?string $search = null, ?string $status = null): LengthAwarePaginator
     {
         $pagination = ProductModel::when($search, function ($query, string $search) {
