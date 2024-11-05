@@ -13,4 +13,11 @@ class ProductsImportRecordRepository implements ProductsImportRecordRepositoryIn
             ->where('success', true)
             ->exists();
     }
+
+    public function registerImportFileRecord(string $filename, bool $success): void
+    {
+        $record = new ProductsImportRecord();
+        $record->fill(['imported_file' => $filename, 'success' => $success]);
+        $record->saveOrFail();
+    }
 }
