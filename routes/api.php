@@ -4,7 +4,7 @@ use App\Http\Controllers\ApiStateController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ApiStateController::class, 'index']);
+Route::get('/', [ApiStateController::class, 'index'])->name('api.state');
 
 Route::prefix('/products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.list');

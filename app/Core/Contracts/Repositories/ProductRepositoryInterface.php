@@ -7,6 +7,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface
 {
+    public function createMany(array $products): void;
+
     public function listPaginatedProducts(int $perpage, ?string $search, ?string $status): LengthAwarePaginator;
 
     public function getProductByBarcode(string $barcode): ?Product;
