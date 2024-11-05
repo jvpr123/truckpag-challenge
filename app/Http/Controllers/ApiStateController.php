@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\UseCases\GetApiStatesUseCase;
+
 class ApiStateController extends Controller
 {
-    public function index()
+    public function index(GetApiStatesUseCase $useCase)
     {
-        return response()->json(['message' => 'API state route']);
+        $states = $useCase->execute();
+        return response()->json($states);
     }
 }
