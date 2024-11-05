@@ -8,7 +8,7 @@ use DateTime;
 class Product
 {
     public function __construct(
-        private int $id,
+        private ?int $id,
         private string $code,
         private ProductStatus $status,
         private string $url,
@@ -35,7 +35,7 @@ class Product
     ) {}
 
     // Getters and Setters
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
