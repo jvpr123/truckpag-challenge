@@ -4,9 +4,17 @@ namespace App\Infrainstructure\Repositories;
 
 use App\Core\Contracts\Repositories\ProductsImportRecordRepositoryInterface;
 use App\Models\ProductsImportRecord;
+use DateTime;
 
 class ProductsImportRecordRepository implements ProductsImportRecordRepositoryInterface
 {
+    public function getLatestImportDateTime(): ?DateTime
+    {
+        $latest = ProductsImportRecord::latest('created_at')->first();
+
+        return $latest ? new $latest->created_at : null;
+    }
+
     public function isFileAlreadyImported(string $filename): bool
     {
         return ProductsImportRecord::where('imported_file', $filename)
