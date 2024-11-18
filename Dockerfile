@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     pkg-config \
     libpng-dev \
-    && docker-php-ext-install pdo && docker-php-ext-install bcmath
+    && docker-php-ext-install pdo && docker-php-ext-install bcmath && docker-php-ext-install pdo_mysql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
